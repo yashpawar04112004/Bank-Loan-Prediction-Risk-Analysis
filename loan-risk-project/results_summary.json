@@ -1,0 +1,79 @@
+{
+  "raw_shape": [
+    150000,
+    11
+  ],
+  "target_balance": {
+    "0": 0.9332,
+    "1": 0.0668
+  },
+  "missing_before": {
+    "SeriousDlqin2yrs": 0,
+    "RevolvingUtilizationOfUnsecuredLines": 0,
+    "age": 0,
+    "NumberOfTime30-59DaysPastDueNotWorse": 0,
+    "DebtRatio": 0,
+    "MonthlyIncome": 29731,
+    "NumberOfOpenCreditLinesAndLoans": 0,
+    "NumberOfTimes90DaysLate": 0,
+    "NumberRealEstateLoansOrLines": 0,
+    "NumberOfTime60-89DaysPastDueNotWorse": 0,
+    "NumberOfDependents": 3924
+  },
+  "clean_shape": [
+    149999,
+    12
+  ],
+  "missing_after": {
+    "SeriousDlqin2yrs": 0,
+    "RevolvingUtilizationOfUnsecuredLines": 0,
+    "age": 0,
+    "NumberOfTime30-59DaysPastDueNotWorse": 0,
+    "DebtRatio": 0,
+    "MonthlyIncome": 0,
+    "NumberOfOpenCreditLinesAndLoans": 0,
+    "NumberOfTimes90DaysLate": 0,
+    "NumberRealEstateLoansOrLines": 0,
+    "NumberOfTime60-89DaysPastDueNotWorse": 0,
+    "NumberOfDependents": 0,
+    "MonthlyIncome_missing_flag": 0
+  },
+  "model_results": {
+    "Logistic Regression": {
+      "roc_auc": 0.8014,
+      "precision_default": 0.182,
+      "recall_default": 0.6698,
+      "f1_default": 0.2862
+    },
+    "Random Forest": {
+      "roc_auc": 0.8661,
+      "precision_default": 0.2501,
+      "recall_default": 0.7207,
+      "f1_default": 0.3714
+    },
+    "Gradient Boosting": {
+      "roc_auc": 0.8696,
+      "precision_default": 0.5682,
+      "recall_default": 0.2015,
+      "f1_default": 0.2975
+    }
+  },
+  "best_model": "Gradient Boosting",
+  "top_10_features": {
+    "TotalPastDue": 0.28,
+    "RevolvingUtilizationOfUnsecuredLines": 0.2416,
+    "NumberOfTimes90DaysLate": 0.0914,
+    "NumberOfTime30-59DaysPastDueNotWorse": 0.0882,
+    "NumberOfTime60-89DaysPastDueNotWorse": 0.0632,
+    "age": 0.0398,
+    "CreditLinesPerAge": 0.031,
+    "DebtRatio": 0.0278,
+    "DebtToIncomeProxy": 0.0257,
+    "IncomePerDependent": 0.0227
+  },
+  "risk_tier_distribution": {
+    "Medium Risk": 0.4545,
+    "High Risk": 0.3835,
+    "Low Risk": 0.1621
+  }
+}

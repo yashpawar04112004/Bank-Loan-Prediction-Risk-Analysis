@@ -1,0 +1,22 @@
+[
+  "RevolvingUtilizationOfUnsecuredLines",
+  "age",
+  "NumberOfTime30-59DaysPastDueNotWorse",
+  "DebtRatio",
+  "MonthlyIncome",
+  "NumberOfOpenCreditLinesAndLoans",
+  "NumberOfTimes90DaysLate",
+  "NumberRealEstateLoansOrLines",
+  "NumberOfTime60-89DaysPastDueNotWorse",
+  "NumberOfDependents",
+  "MonthlyIncome_missing_flag",
+  "TotalPastDue",
+  "DebtToIncomeProxy",
+  "IncomePerDependent",
+  "CreditLinesPerAge",
+  "AgeGroup_25-34",
+  "AgeGroup_35-44",
+  "AgeGroup_45-54",
+  "AgeGroup_55-64",
+  "AgeGroup_65+"
+]
