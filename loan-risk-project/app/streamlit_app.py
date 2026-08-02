@@ -6,19 +6,20 @@ Deploy free:  https://streamlit.io/cloud  (connect your GitHub repo)
 
 import streamlit as st
 import pandas as pd
-import joblib
+import skops.io as sio
 import json
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent.parent
-MODEL_PATH = BASE / "model" / "loan_risk_model.pkl"
+MODEL_PATH = BASE / "model" / "loan_risk_model.skops"
 FEATURES_PATH = BASE / "model" / "feature_names.json"
 
 st.set_page_config(page_title="Loan Risk Predictor", page_icon="🏦", layout="centered")
 
 @st.cache_resource
 def load_artifacts():
-    model = joblib.load(MODEL_PATH)
+    untrusted = sio.get_untrusted_types(file=str(MODEL_PATH))
+    model = sio.load(str(MODEL_PATH), trusted=untrusted)
     with open(FEATURES_PATH) as f:
         feature_names = json.load(f)
     return model, feature_names
