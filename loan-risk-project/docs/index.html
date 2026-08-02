@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bank Loan Default Risk Dashboard</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f5f5f4;
+    color: #1a1a1a;
+    margin: 0;
+    padding: 2rem 1rem;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 600; margin: 0 0 4px; }
+  .subtitle { color: #6b6b68; font-size: 14px; margin: 0 0 2rem; }
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 2rem;
+  }
+  .kpi-card {
+    background: #ffffff;
+    border: 1px solid #e5e4e0;
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+  .kpi-label { font-size: 13px; color: #6b6b68; margin: 0 0 6px; }
+  .kpi-value { font-size: 28px; font-weight: 600; margin: 0; }
+  .section {
+    background: #ffffff;
+    border: 1px solid #e5e4e0;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .section h2 { font-size: 16px; font-weight: 600; margin: 0 0 1rem; }
+  .chart-container { position: relative; height: 260px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 8px; }
+  th { color: #6b6b68; font-weight: 500; border-bottom: 1px solid #e5e4e0; }
+  td { border-bottom: 1px solid #f0efec; }
+  td.num, th.num { text-align: right; }
+  .footer {
+    text-align: center; color: #9a9a96; font-size: 13px; margin-top: 2rem;
+  }
+  .footer a { color: #185fa5; text-decoration: none; }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 700px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Bank Loan Default Risk Dashboard</h1>
+  <p class="subtitle">Analysis of 149,999 real loan applicant records &middot; Give Me Some Credit dataset (Kaggle) &middot; Gradient Boosting model, ROC-AUC 0.87</p>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <p class="kpi-label">Total applicants</p>
+      <p class="kpi-value">149,999</p>
+    </div>
+    <div class="kpi-card">
+      <p class="kpi-label">Overall default rate</p>
+      <p class="kpi-value">6.68%</p>
+    </div>
+    <div class="kpi-card">
+      <p class="kpi-label">Avg monthly income</p>
+      <p class="kpi-value">$6,418</p>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="section">
+      <h2>Default rate by risk tier</h2>
+      <div class="chart-container">
+        <canvas id="riskTierChart" role="img" aria-label="Bar chart: default rate 6.9% for low risk, 17.7% for medium risk, 54.8% for high risk"></canvas>
+      </div>
+    </div>
+    <div class="section">
+      <h2>Default rate by age group</h2>
+      <div class="chart-container">
+        <canvas id="ageChart" role="img" aria-label="Bar chart of default rate by age group, decreasing from 11.2% under 25 to 2.4% for 65 plus"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Avg income vs debt ratio by risk tier</h2>
+    <div class="chart-container">
+      <canvas id="scatterChart" role="img" aria-label="Scatter chart showing average monthly income against average debt ratio for each risk tier"></canvas>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Risk tier breakdown</h2>
+    <table>
+      <tr>
+        <th>Risk tier</th>
+        <th class="num">Applicants</th>
+        <th class="num">% of total</th>
+        <th class="num">Avg predicted default probability</th>
+      </tr>
+      <tr>
+        <td>Low risk</td>
+        <td class="num">24,309</td>
+        <td class="num">16.21%</td>
+        <td class="num">6.89%</td>
+      </tr>
+      <tr>
+        <td>Medium risk</td>
+        <td class="num">68,168</td>
+        <td class="num">45.45%</td>
+        <td class="num">17.65%</td>
+      </tr>
+      <tr>
+        <td>High risk</td>
+        <td class="num">57,522</td>
+        <td class="num">38.35%</td>
+        <td class="num">54.84%</td>
+      </tr>
+    </table>
+  </div>
+
+  <p class="footer">
+    Educational project &middot;
+    <a href="https://github.com/yashpawar04112004/Bank-Loan-Prediction-Risk-Analysis" target="_blank">GitHub repo</a>
+    &middot;
+    <a href="#" target="_blank">Live prediction demo (Streamlit)</a>
+  </p>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+new Chart(document.getElementById('riskTierChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Low risk', 'Medium risk', 'High risk'],
+    datasets: [{
+      data: [6.9, 17.7, 54.8],
+      backgroundColor: ['#1baf7a', '#eda100', '#e34948'],
+      borderRadius: 4,
+      maxBarThickness: 60
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { title: { display: true, text: '% default rate' }, grid: { color: '#eeece7' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+new Chart(document.getElementById('ageChart'), {
+  type: 'bar',
+  data: {
+    labels: ['<25', '25-34', '35-44', '45-54', '55-64', '65+'],
+    datasets: [{
+      data: [11.17, 11.12, 8.81, 7.59, 4.58, 2.41],
+      backgroundColor: '#2a78d6',
+      borderRadius: 4,
+      maxBarThickness: 40
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { title: { display: true, text: '% default rate' }, grid: { color: '#eeece7' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+new Chart(document.getElementById('scatterChart'), {
+  type: 'scatter',
+  data: {
+    datasets: [
+      { label: 'Low risk', data: [{x: 0.92, y: 6427.84}], backgroundColor: '#1baf7a', pointRadius: 10 },
+      { label: 'Medium risk', data: [{x: 0.62, y: 6729.67}], backgroundColor: '#eda100', pointRadius: 10 },
+      { label: 'High risk', data: [{x: 0.66, y: 6045.68}], backgroundColor: '#e34948', pointRadius: 10 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { usePointStyle: true } }
+    },
+    scales: {
+      x: { title: { display: true, text: 'Avg debt ratio (capped)' }, grid: { color: '#eeece7' } },
+      y: { title: { display: true, text: 'Avg monthly income ($)' }, grid: { color: '#eeece7' } }
+    }
+  }
+});
+</script>
+</body>
+</html>
